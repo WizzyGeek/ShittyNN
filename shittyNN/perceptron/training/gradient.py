@@ -24,7 +24,7 @@ def correction_gradient_for_wt(targets, results, weighted_sums,  inputs, activat
 
 # actually useful functions
 def intermediate_gradient_vector(targets, results, weighted_sums, activator_slope_fn):
-    return np.array((a - t) * activator_slope_fn(s) for t, a, s in zip(targets, results, weighted_sums))
+    return np.array(tuple((a - t) * activator_slope_fn(s) for t, a, s in zip(targets, results, weighted_sums)))
 
 def gradient_vector(targets, results, weighted_sums, inputs, activator_slope_fn): # dw = -n * v
     n = len(targets)
@@ -33,8 +33,8 @@ def gradient_vector(targets, results, weighted_sums, inputs, activator_slope_fn)
         raise Exception("differing target-result-input-sums pair provided")
 
     inter = intermediate_gradient_vector(targets, results, weighted_sums, activator_slope_fn)
-    inputs = np.array(inputs).reshape((n, np.array(inputs[0]).size))
-    return np.array(np.dot(inter, inputs[:, i]) for i in range(n))
+    inputs = np.array(inputs).reshape((n, len(inputs[0])))
+    return np.array(tuple(np.dot(inter, inputs[:, i]) for i in range(inputs.shape[1])))
 
 # experiments
 # dw = -n * n(D) * v
