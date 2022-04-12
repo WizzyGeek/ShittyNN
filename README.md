@@ -8,8 +8,31 @@ or something by the end of this.
 I am making the code real shitty, real slow.
 I try to come up with as much maths as I can, but I just read up on the hard shit.
 
+## Update
+
+I made a perpceptron I didn't know rosenblatt had an algorithm and ended up making a learning method similar to gradient descent and
+rosenblatt's algorithm, it just substracts the delta of the weighted sum from the weights scaled by the reciprocal of the sum of the weights
+
+I named the method reduction since u just reduce the weights till u get a suitable result, but it wasn't very good coz without an activation function some of the datasets wont fit
+
+Then I just implement gradient descent, then i thought, wait why are we substracting dL/dw (L is loss, w is any weight) from the weights
+so i just made another thing a gradient of the reciprocal of the slopes since dL/dw didn't make sense to me (honestly i still cant understand the logic) and maned it the correction gradient C = [dw1/dL, dw2/dL, ...]
+
+Then i also made Or logic in the perceptron, but i chose a poor univariate activation function which approached the desired value wery slowly
+and also had slope of 0 at x = 2 (i wonder if it is possible to practically stumble on x=2 irl)
+
+Any way for my next thing I will be making a 16*16 perceptron, however i have to build some meaningfull data for this to work
+a perceptron wont really detect lines based off of pixel values, i am thinking of doing something like the convulation nueral networks so that
+it works a better, or maybe, i could cheat and make a nueral network, the harder choice will be of the activation function so that it can
+learn fast.
+
+I also thought of just ditching nueral networks, i realise these things are just so inefficient. kernel machines sound more exciting,
+i wanna play around with a nueral network where u keep adding nuerons for each new element in the dataset, kinda like a Modularised nueral
+network kernel machine, the researchers at google also wrote something on infinte width deep nueral networks sounds more like a kernel machine
+than a nueral network.
+
 ## Goals
- - [ ] Detect two lists from a dataset of 3 using a perceptron
+ - [x] Detect two lists from a dataset of 3 using a perceptron
  - [ ] Detect a line on 16 * 16 using a perceptron
  - [ ] Make a nueral network which identifies vertical and horizontal lines
 
