@@ -11,7 +11,9 @@ I try to come up with as much maths as I can, but I just read up on the hard shi
 ## Update
 
 I made a perpceptron I didn't know rosenblatt had an algorithm and ended up making a learning method similar to gradient descent and
-rosenblatt's algorithm, it just substracts the delta of the weighted sum from the weights scaled by the reciprocal of the sum of the weights
+rosenblatt's algorithm, it just substracts the delta of the weighted sum from the weights scaled by the reciprocal of the sum of the inputs
+(`sum((i / sum(i)) * (t * max(0, t - a) + (t - 1) * max(0, a)) for i, t, a in zip(inputs, targets, weighted_sums))` the max and stuff stops
+reduction once target is reached i dont remember)
 
 I named the method reduction since u just reduce the weights till u get a suitable result, but it wasn't very good coz without an activation function some of the datasets wont fit
 
