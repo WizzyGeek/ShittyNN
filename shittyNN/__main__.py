@@ -109,7 +109,8 @@ class Perceptron_Exp2:
             print(v)
             results = []
             weighted_sums = []
-            P.wt -= v * r
+            P.wt -= v * r # looking at this after writing theory, double checked it
+            # code is all correct the activation function is just shit.
             print(P.wt)
             try:
                 input()
