@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>shittyNN</title>
+        <link href="/static/css/main.css" rel="stylesheet">
+    </head>
+    <body>
+        <div class="content">
+            <h1>16x16 Line Classifier</h1>
+            <canvas height="512" width="512">
+            </canvas>
+            <div>
+                <button id="clear">Clear</button>
+                <button id="sub">Run</button>
+            </div>
+            <script>
+                const canvas = document.getElementsByTagName("canvas")[0]
+                const ctx = canvas.getContext("2d")
+
+                const dx = canvas.width / 16
+                const dy = canvas.height / 16
+                const pad = Math.trunc(ctx.lineWidth / 2) + 2
+
+                function screenDraw() {
+                    // canvas.height,canvas.width
+                    ctx.lineJoin = "round"
+                    let x = 0,
+                        y = 0
+
+                    ctx.beginPath()
+                    ctx.lineWidth = 2
+                    ctx.strokeStyle = "#ffffff"
+                    for(i = 0; i < 16 + 1; i++) {
+                        x = i * dx; y = i * dy
+                        ctx.moveTo(x, 0)
+                        ctx.lineTo(x, canvas.height)
+                        ctx.moveTo(0, y)
+                        ctx.lineTo(canvas.width, y)
+                    }
+                    ctx.stroke()
+                    ctx.closePath()
+                }
+
+                function getIntersectingCell(x, y) {
+                    return [Math.trunc(x / dx), Math.trunc(y / dy)]
+                }
+
+                function shadeCell(i, j) {
+                    ctx.fillStyle = "#ffffff"
+                    ctx.fillRect(i * dx + pad, j * dy + pad, dx - pad - 2, dy - pad - 2)
+                    state.inps[j][i] = 1
+                }
+
+                window.onload = screenDraw
+
+                const state = {
+                    drawing: false,
+                    inps: Array.from(
+                        Array(16).fill().map(
+                            () => new Array(16).fill(0)
+                        )
+                    ),
+                }
+                canvas.addEventListener("mousedown", (ev) => {
+                    //ctx.beginPath()
+                    //ctx.lineWidth = 8
+                    //ctx.strokeStyle = "#ffffff"
+                    state.drawing = true
+                    //ctx.moveTo(ev.offsetX, ev.offsetY)
+                    shadeCell(...getIntersectingCell(ev.offsetX, ev.offsetY))
+                })
+
+                canvas.addEventListener("mouseup", (ev) => {
+                    //ctx.lineTo(ev.offsetX, ev.offsetY)
+                    //ctx.stroke()
+                    //ctx.closePath()
+                    shadeCell(...getIntersectingCell(ev.offsetX, ev.offsetY))
+                    state.drawing = false
+                })
+
+                window.addEventListener("mouseup", () => state.drawing = false)
+
+                canvas.addEventListener("mousemove", (ev) => {
+                    if (state.drawing) {
+                        //ctx.lineTo(ev.offsetX, ev.offsetY)
+                        //ctx.stroke()
+                        shadeCell(...getIntersectingCell(ev.offsetX, ev.offsetY))
+                        // selections get in the way
+                        window.getSelection().removeAllRanges()
+                    }
+                })
+
+                document.getElementById("clear").onclick = function (_) {
+                    ctx.clearRect(0, 0, canvas.width, canvas.height)
+                    state.inps = Array.from(
+                        Array(16).fill().map(
+                            () => new Array(16).fill(0)
+                        )
+                    )
+                    screenDraw()
+                }
+
+                document.getElementById("sub").onclick = function(_) {
+                    fetch("/rec", {
+                        method: "POST",
+                        body: JSON.stringify(state.inps)
+                    })
+                }
+
+                const es = new EventSource("/sse")
+
+                es.addEventListener("done", (ev) => {
+                    console.log(ev.data)
+                })
+            </script>
+        </div>
+    </body>
+</html>

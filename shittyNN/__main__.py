@@ -128,7 +128,11 @@ class Perceptron_Exp2:
     # The selection of an activation function passing through origin led to (0, 0): 0 relation to not be included in the training
     # as bias was not a part and the weightd sum of this input is already the target which remains the same when passed through the activation function
 
+class Perceptron_exp3:
+    from .main import run_app, make_app
+
 if __name__ == "__main__":
     # e1.initialise_wts()
     # e1.train()
-    Perceptron_Exp2.main()
+    # Perceptron_Exp2.main()
+    Perceptron_exp3.run_app(Perceptron_exp3.make_app()) #type: ignore
