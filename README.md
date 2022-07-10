@@ -8,6 +8,18 @@ or something by the end of this.
 I am making the code real shitty, real slow.
 I try to come up with as much maths as I can, but I just read up on the hard shit.
 
+## Update 2
+
+I made the things for making a 16 * 16 line classifier before I realised that the data does not fit well
+(is this what is meant by linearly seperable?)
+then i realised that I just need to classify vertical lines with the perceptron as I had written in my goals,
+so now I am gonna assign each element a value based on how many vertical partners it has (and bit less for diagonal partners),
+this will eliminate any horizontal lines, yet, I can think of false positives...
+
+How about getting a negative value for having horizontal neighbours? although slight, I could eliminate
+all polluting inputs, and then pass my 16*16 processed data into the perceptron and since with negative values
+the invalid inputs will reduce their own credibility which makes heavy lifting on my end easier
+
 ## Update
 
 I made a perpceptron I didn't know rosenblatt had an algorithm and ended up making a learning method similar to gradient descent and
@@ -71,4 +83,3 @@ the next analog nueral network chip or something i dunno 🤷‍♂️
 ## When will this work?
 
 Uhhhhhhh, as things are right now, uhh, Never. I think. Probably. Maybe. I dunno.
-
